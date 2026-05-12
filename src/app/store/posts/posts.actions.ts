@@ -5,7 +5,7 @@ export const loadFeed = createAction('[Posts] Load Feed');
 
 export const loadFeedSuccess = createAction(
   '[Posts] Load Feed Success',
-  props<{ posts: Post[] }>()
+  props<{ posts: Post[]; total: number }>()
 );
 
 export const loadFeedFailure = createAction(

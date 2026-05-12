@@ -26,10 +26,15 @@ export class PostsService {
   private readonly http = inject(HttpClient);
   private readonly feedUrl = 'https://dummyjson.com/posts';
 
-  getFeed(): Observable<Post[]> {
-    return this.http.get<DummyJsonResponse>(this.feedUrl).pipe(
-      map(({ posts }) => posts.map((p) => this.mapToPost(p)))
-    );
+  getFeed(skip = 0, limit = 10): Observable<{ posts: Post[]; total: number }> {
+    return this.http
+      .get<DummyJsonResponse>(`${this.feedUrl}?skip=${skip}&limit=${limit}`)
+      .pipe(
+        map(({ posts, total }) => ({
+          posts: posts.map((p) => this.mapToPost(p)),
+          total,
+        }))
+      );
   }
 
   private mapToPost(p: DummyJsonPost): Post {

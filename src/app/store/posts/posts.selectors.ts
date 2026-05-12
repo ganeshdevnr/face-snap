@@ -22,3 +22,13 @@ export const selectPostsCount = createSelector(
   selectPosts,
   (posts) => posts.length
 );
+
+export const selectPostsSkip = createSelector(
+  selectPostsState,
+  (state) => state.skip
+);
+
+export const selectHasMorePosts = createSelector(
+  selectPostsState,
+  (state) => state.posts.length < state.total
+);

@@ -6,12 +6,16 @@ export interface PostsState {
   posts: Post[];
   isLoading: boolean;
   error: string | null;
+  skip: number;
+  total: number;
 }
 
 export const initialPostsState: PostsState = {
   posts: [],
   isLoading: false,
   error: null,
+  skip: 0,
+  total: 0,
 };
 
 export const postsReducer = createReducer(
@@ -19,13 +23,18 @@ export const postsReducer = createReducer(
 
   on(loadFeed, (state) => ({
     ...state,
+    posts: [],
+    skip: 0,
+    total: 0,
     isLoading: true,
     error: null,
   })),
 
-  on(loadFeedSuccess, (state, { posts }) => ({
+  on(loadFeedSuccess, (state, { posts, total }) => ({
     ...state,
     posts: [...state.posts, ...posts],
+    skip: state.skip + posts.length,
+    total,
     isLoading: false,
     error: null,
   })),
