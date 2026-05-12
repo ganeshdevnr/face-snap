@@ -1,0 +1,24 @@
+<div class="bg-white rounded-xl border border-gray-200 p-4">
+
+  <h3 class="font-semibold text-gray-900 mb-4">Friend Suggestions</h3>
+
+  <ul class="space-y-3">
+    @for (person of suggestions; track person.id) {
+      <li class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#9CA3AF">
+            <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+          </svg>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="font-medium text-sm text-gray-900 truncate">{{ person.name }}</p>
+          <p class="text-xs text-gray-500 truncate">{{ person.handle }}</p>
+        </div>
+        <button class="flex-shrink-0 px-3 py-1.5 bg-primary text-white text-xs font-semibold rounded-full hover:bg-primary-dark transition-colors">
+          Add Friend
+        </button>
+      </li>
+    }
+  </ul>
+
+</div>

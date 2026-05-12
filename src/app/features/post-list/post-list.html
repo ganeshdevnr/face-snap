@@ -1,0 +1,5 @@
+<div class="space-y-4">
+  @for (post of posts; track post.id) {
+    <app-post-card [post]="post" />
+  }
+</div>

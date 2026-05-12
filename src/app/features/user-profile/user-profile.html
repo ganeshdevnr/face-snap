@@ -1,0 +1,38 @@
+<div class="bg-white rounded-xl border border-gray-200 p-5 text-center">
+
+  <!-- Avatar -->
+  <div class="w-20 h-20 mx-auto mb-3 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300 overflow-hidden">
+    <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="#9CA3AF">
+      <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+    </svg>
+  </div>
+
+  <!-- Name & role -->
+  <h2 class="font-bold text-gray-900 text-base">{{ profile.name }}</h2>
+  <p class="text-sm text-gray-500 mt-0.5">{{ profile.role }}</p>
+
+  <!-- Bio -->
+  <p class="text-sm text-gray-600 mt-3 leading-relaxed">{{ profile.bio }}</p>
+
+  <!-- Stats -->
+  <div class="flex justify-around mt-4 pt-4 border-t border-gray-100">
+    <div>
+      <p class="font-bold text-gray-900 text-sm">{{ profile.posts }}</p>
+      <p class="text-xs text-gray-500">Posts</p>
+    </div>
+    <div>
+      <p class="font-bold text-gray-900 text-sm">{{ profile.followers }}</p>
+      <p class="text-xs text-gray-500">Followers</p>
+    </div>
+    <div>
+      <p class="font-bold text-gray-900 text-sm">{{ profile.following }}</p>
+      <p class="text-xs text-gray-500">Following</p>
+    </div>
+  </div>
+
+  <!-- Edit profile -->
+  <button class="mt-4 w-full py-2 rounded-full border border-gray-300 text-sm font-medium text-gray-700 hover:border-primary hover:text-primary transition-colors">
+    Edit Profile
+  </button>
+
+</div>
