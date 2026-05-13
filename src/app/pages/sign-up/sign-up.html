@@ -52,12 +52,16 @@
         />
       </div>
 
+      @if (error()) {
+        <p class="text-sm text-red-500 text-center">{{ error() }}</p>
+      }
+
       <button
         type="submit"
-        [disabled]="signUpForm.invalid"
+        [disabled]="signUpForm.invalid || isLoading()"
         class="mt-2 w-full py-2 bg-primary text-white text-sm font-semibold rounded-lg hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        Create Account
+        {{ isLoading() ? 'Creating Account...' : 'Create Account' }}
       </button>
     </form>
 

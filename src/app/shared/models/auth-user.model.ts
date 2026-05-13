@@ -1,5 +1,5 @@
 export interface AuthUser {
-  id: number;
+  id: string;
   displayName: string;
   avatarUrl: string;
 }
