@@ -1,23 +1,24 @@
-import { Component } from '@angular/core';
-
-interface FriendSuggestion {
-  id: number;
-  name: string;
-  handle: string;
-  mutualFriends: number;
-}
+import { Component, inject, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { loadFriendSuggestions } from '../../store/friendSuggestions/friendSuggestions.actions';
+import {
+  selectFriendSuggestionsWithRequestedState,
+  selectFriendSuggestionsIsLoading,
+  selectFriendSuggestionsError,
+} from '../../store/friendSuggestions/friendSuggestions.selectors';
 
 @Component({
   selector: 'app-friend-suggestions',
   templateUrl: './friend-suggestions.html',
 })
-export class FriendSuggestionsComponent {
-  readonly suggestions: FriendSuggestion[] = [
-    { id: 1, name: 'Jason Bueller', handle: '@jasonb', mutualFriends: 3 },
-    { id: 2, name: 'Ember Franklin', handle: '@emberf', mutualFriends: 5 },
-    { id: 3, name: 'Jaxon Storm', handle: '@jaxstorm', mutualFriends: 2 },
-    { id: 4, name: 'Aria Blaze', handle: '@ariablaze', mutualFriends: 7 },
-    { id: 5, name: 'Orion Sky', handle: '@orionsky', mutualFriends: 1 },
-    { id: 6, name: 'Jessica Lee', handle: '@jessical', mutualFriends: 4 },
-  ];
+export class FriendSuggestionsComponent implements OnInit {
+  private readonly store = inject(Store);
+
+  readonly suggestions = this.store.selectSignal(selectFriendSuggestionsWithRequestedState);
+  readonly isLoading = this.store.selectSignal(selectFriendSuggestionsIsLoading);
+  readonly error = this.store.selectSignal(selectFriendSuggestionsError);
+
+  ngOnInit(): void {
+    this.store.dispatch(loadFriendSuggestions());
+  }
 }

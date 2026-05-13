@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { exhaustMap, map, catchError, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { PostsService } from '../../features/posts/posts.service';
+import { PostsService } from '../../services/posts/posts.service';
 import { loadFeed, loadFeedSuccess, loadFeedFailure, loadNextPage } from './posts.actions';
 import { selectPostsSkip } from './posts.selectors';
 
