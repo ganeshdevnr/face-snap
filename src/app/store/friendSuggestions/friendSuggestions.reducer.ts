@@ -15,7 +15,7 @@ import {
 
 export interface FriendSuggestionsState {
   users: FriendSuggestion[];
-  friendRequested: number[];
+  friendRequested: string[];
   isLoading: boolean;
   error: string | null;
 }

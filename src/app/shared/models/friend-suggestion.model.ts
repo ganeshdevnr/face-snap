@@ -1,6 +1,6 @@
 
 export interface FriendSuggestion {
-  userId: number;
+  userId: string;
   name: string;
   handle: string;
   avatarUrl: string;

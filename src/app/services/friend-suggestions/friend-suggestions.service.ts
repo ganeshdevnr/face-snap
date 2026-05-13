@@ -19,7 +19,7 @@ export class FriendSuggestionsService {
   private readonly http = inject(HttpClient);
   private readonly url = 'https://dummyjson.com/users?limit=10&select=id,firstName,lastName,username';
 
-  addFriendRequest(friendId: number): Observable<void> {
+  addFriendRequest(friendId: string): Observable<void> {
     return this.http.put(`https://dummyjson.com/users/${friendId}`, { friendId }).pipe(
       switchMap(() =>
         Math.random() < 0.5
@@ -29,7 +29,7 @@ export class FriendSuggestionsService {
     );
   }
 
-  cancelFriendRequest(friendId: number): Observable<void> {
+  cancelFriendRequest(friendId: string): Observable<void> {
     return this.http.put(`https://dummyjson.com/users/${friendId}`, { friendId }).pipe(
       switchMap(() =>
         Math.random() < 0.5
@@ -43,7 +43,7 @@ export class FriendSuggestionsService {
     return this.http.get<DummyJsonResponse>(this.url).pipe(
       map(({ users }) =>
         users.map((user) => ({
-          userId: user.id,
+          userId: crypto.randomUUID(),
           name: `${user.firstName} ${user.lastName}`,
           handle: user.username,
           avatarUrl: 'https://i.pravatar.cc/150?u=' + user.id,

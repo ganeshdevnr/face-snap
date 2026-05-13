@@ -22,11 +22,11 @@ export class FriendSuggestionsComponent implements OnInit {
     this.store.dispatch(loadFriendSuggestions());
   }
 
-  onAddFriend(friendId: number): void {
+  onAddFriend(friendId: string): void {
     this.store.dispatch(addFriendRequest({ friendId }));
   }
 
-  onCancelFriendRequest(friendId: number): void {
+  onCancelFriendRequest(friendId: string): void {
     this.store.dispatch(cancelFriendRequest({ friendId }));
   }
 }

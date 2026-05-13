@@ -1,7 +1,10 @@
 import { inject } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { catchError, map, mergeMap, of, switchMap } from "rxjs";
+import { Store } from "@ngrx/store";
+import { catchError, map, mergeMap, of, switchMap, withLatestFrom } from "rxjs";
 import { FriendSuggestionsService } from "../../services/friend-suggestions/friend-suggestions.service";
+import { SupabaseService } from "../../core/services/supabase.service";
+import { selectAuthUser } from "../../store/auth/auth.selectors";
 import {
   loadFriendSuggestions,
   loadFriendSuggestionsSuccess,
@@ -16,7 +19,9 @@ import {
 
 export class FriendSuggestionsEffects {
   private readonly actions$ = inject(Actions);
+  private readonly store = inject(Store);
   private readonly friendSuggestionsService = inject(FriendSuggestionsService);
+  private readonly supabaseService = inject(SupabaseService);
 
   loadFriendSuggestions$ = createEffect(() =>
     this.actions$.pipe(
@@ -35,8 +40,9 @@ export class FriendSuggestionsEffects {
   addFriendRequest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(addFriendRequest),
-      mergeMap(({ friendId }) =>
-        this.friendSuggestionsService.addFriendRequest(friendId).pipe(
+      withLatestFrom(this.store.select(selectAuthUser)),
+      mergeMap(([{ friendId }, user]) =>
+        this.supabaseService.addFriendRequest(user!.id, friendId).pipe(
           map(() => addFriendRequestSuccess({ friendId })),
           catchError((error) =>
             of(addFriendRequestFailure({ friendId, error: error.message }))

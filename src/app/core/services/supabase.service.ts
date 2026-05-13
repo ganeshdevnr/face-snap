@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { from, Observable } from 'rxjs';
+import { from, map, Observable, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -13,6 +13,16 @@ export class SupabaseService {
   async getSession(): Promise<string | null> {
     const { data } = await this.supabase.auth.getSession();
     return data?.session?.access_token ?? null;
+  }
+
+  addFriendRequest(userId: string, friendId: string): Observable<any> {
+    return from(
+      this.supabase.from('friend_requests').insert({ user_id: userId, friend_id: friendId, status: 'pending' })
+    ).pipe(
+      map(({ error }) => {
+        if (error) throw error;
+      })
+    );
   }
 
   async getSessionUser(): Promise<any> {
