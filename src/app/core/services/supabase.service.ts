@@ -10,8 +10,14 @@ export class SupabaseService {
     environment.supabaseKey
   );
 
-  getSession(): Promise<any> {
-    return this.supabase.auth.getSession();
+  async getSession(): Promise<string | null> {
+    const { data } = await this.supabase.auth.getSession();
+    return data?.session?.access_token ?? null;
+  }
+
+  async getSessionUser(): Promise<any> {
+    const { data } = await this.supabase.auth.getSession();
+    return data?.session?.user ?? null;
   }
 
   login(email: string, password: string): Observable<any> {

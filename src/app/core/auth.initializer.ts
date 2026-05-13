@@ -7,8 +7,7 @@ export async function authInitializer(): Promise<void> {
   const supabaseService = inject(SupabaseService);
   const store = inject(Store);
 
-  const { data } = await supabaseService.getSession();
-  const user = data?.session?.user;
+  const user = await supabaseService.getSessionUser();
 
   if (user) {
     store.dispatch(loginSuccess({
