@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { loadFriendSuggestions } from '../../store/friendSuggestions/friendSuggestions.actions';
+import { loadFriendSuggestions, addFriendRequest, cancelFriendRequest } from '../../store/friendSuggestions/friendSuggestions.actions';
 import {
   selectFriendSuggestionsWithRequestedState,
   selectFriendSuggestionsIsLoading,
@@ -20,5 +20,13 @@ export class FriendSuggestionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(loadFriendSuggestions());
+  }
+
+  onAddFriend(friendId: number): void {
+    this.store.dispatch(addFriendRequest({ friendId }));
+  }
+
+  onCancelFriendRequest(friendId: number): void {
+    this.store.dispatch(cancelFriendRequest({ friendId }));
   }
 }

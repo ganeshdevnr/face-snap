@@ -11,11 +11,11 @@
           <p class="text-xs text-gray-500 truncate">@{{ person.handle }}</p>
         </div>
         @if (person.isRequested) {
-          <button class="flex-shrink-0 px-3 py-1.5 bg-gray-200 text-gray-600 text-xs font-semibold rounded-full hover:bg-gray-300 transition-colors">
+          <button (click)="onCancelFriendRequest(person.userId)" class="flex-shrink-0 px-3 py-1.5 bg-gray-200 text-gray-600 text-xs font-semibold rounded-full hover:bg-gray-300 transition-colors">
             Cancel
           </button>
         } @else {
-          <button class="flex-shrink-0 px-3 py-1.5 bg-primary text-white text-xs font-semibold rounded-full hover:bg-primary-dark transition-colors">
+          <button (click)="onAddFriend(person.userId)" class="flex-shrink-0 px-3 py-1.5 bg-primary text-white text-xs font-semibold rounded-full hover:bg-primary-dark transition-colors">
             Add Friend
           </button>
         }
