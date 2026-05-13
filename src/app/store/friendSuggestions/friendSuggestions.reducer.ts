@@ -38,9 +38,10 @@ export const friendSuggestionsReducer = createReducer(
     error: null,
   })),
 
-  on(loadFriendSuggestionsSuccess, (state, { users }) => ({
+  on(loadFriendSuggestionsSuccess, (state, { users, friendRequested }) => ({
     ...state,
     users,
+    friendRequested,
     isLoading: false,
     error: null,
   })),

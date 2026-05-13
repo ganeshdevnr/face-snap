@@ -1,8 +1,7 @@
 import { inject } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { catchError, map, mergeMap, of, switchMap, withLatestFrom } from "rxjs";
-import { FriendSuggestionsService } from "../../services/friend-suggestions/friend-suggestions.service";
+import { catchError, forkJoin, map, mergeMap, of, switchMap, withLatestFrom } from "rxjs";
 import { SupabaseService } from "../../core/services/supabase.service";
 import { selectAuthUser } from "../../store/auth/auth.selectors";
 import {
@@ -19,16 +18,21 @@ import {
 
 export class FriendSuggestionsEffects {
   private readonly actions$ = inject(Actions);
-  private readonly store = inject(Store);
-  private readonly friendSuggestionsService = inject(FriendSuggestionsService);
+  private readonly store = inject(Store);  
   private readonly supabaseService = inject(SupabaseService);
 
   loadFriendSuggestions$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadFriendSuggestions),
-      switchMap(() =>
-        this.friendSuggestionsService.getFriendSuggestions().pipe(
-          map((users) => loadFriendSuggestionsSuccess({ users })),
+      withLatestFrom(this.store.select(selectAuthUser)),
+      switchMap(([, user]) =>
+        forkJoin({
+          users: this.supabaseService.getFriendSuggestions(),
+          friendRequested: this.supabaseService.getFriendRequested(user!.id),
+        }).pipe(
+          map(({ users, friendRequested }) =>
+            loadFriendSuggestionsSuccess({ users, friendRequested })
+          ),
           catchError((error) =>
             of(loadFriendSuggestionsFailure({ error: error.message }))
           )
@@ -55,8 +59,9 @@ export class FriendSuggestionsEffects {
   cancelFriendRequest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(cancelFriendRequest),
-      mergeMap(({ friendId }) =>
-        this.friendSuggestionsService.cancelFriendRequest(friendId).pipe(
+      withLatestFrom(this.store.select(selectAuthUser)),
+      mergeMap(([{ friendId }, user]) =>
+        this.supabaseService.cancelFriendRequest(user!.id, friendId).pipe(
           map(() => cancelFriendRequestSuccess({ friendId })),
           catchError((error) =>
             of(cancelFriendRequestFailure({ friendId, error: error.message }))

@@ -5,7 +5,7 @@ export const loadFriendSuggestions = createAction('[Friend Suggestions] Load Fri
 
 export const loadFriendSuggestionsSuccess = createAction(
   '[Friend Suggestions] Load Friend Suggestions Success',
-  props<{ users: FriendSuggestion[] }>()
+  props<{ users: FriendSuggestion[]; friendRequested: string[] }>()
 );
 
 export const loadFriendSuggestionsFailure = createAction(
