@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideHttpClient, withFetch } from '@angular/common/http';
@@ -12,6 +12,7 @@ import { friendSuggestionsReducer } from './store/friendSuggestions/friendSugges
 import { FriendSuggestionsEffects } from './store/friendSuggestions/friendSuggestions.effects';
 import { authReducer } from './store/auth/auth.reducer';
 import { AuthEffects } from './store/auth/auth.effects';
+import { authInitializer } from './core/auth.initializer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,5 +22,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideStore({ posts: postsReducer, friendSuggestions: friendSuggestionsReducer, auth: authReducer }),
     provideEffects([PostsEffects, FriendSuggestionsEffects, AuthEffects]),
+    { provide: APP_INITIALIZER, useFactory: authInitializer, multi: true },
   ],
 };

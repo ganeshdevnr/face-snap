@@ -83,4 +83,13 @@ export class AuthEffects {
       ),
     { dispatch: false }
   );
+
+  logoutClearStorage$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(logout),
+        tap(() => localStorage.clear())
+      ),
+    { dispatch: false }
+  );
 }

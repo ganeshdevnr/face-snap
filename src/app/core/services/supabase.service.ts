@@ -10,6 +10,10 @@ export class SupabaseService {
     environment.supabaseKey
   );
 
+  getSession(): Promise<any> {
+    return this.supabase.auth.getSession();
+  }
+
   login(email: string, password: string): Observable<any> {
     return from(this.supabase.auth.signInWithPassword({ email, password }));
   }
