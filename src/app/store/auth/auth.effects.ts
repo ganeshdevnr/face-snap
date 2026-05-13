@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, of, switchMap, tap } from 'rxjs';
-import { login, loginSuccess, loginFailure } from './auth.actions';
+import { login, loginSuccess, loginFailure, logout } from './auth.actions';
 import { AuthUser } from '../../shared/models/auth-user.model';
 
 export class AuthEffects {
@@ -31,6 +31,15 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(loginSuccess),
         tap(() => this.router.navigate(['/feed']))
+      ),
+    { dispatch: false }
+  );
+
+  logout$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(logout),
+        tap(() => this.router.navigate(['/login']))
       ),
     { dispatch: false }
   );
