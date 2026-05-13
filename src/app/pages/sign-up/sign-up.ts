@@ -5,13 +5,14 @@ import { Store } from '@ngrx/store';
 import { login } from '../../store/auth/auth.actions';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.html',
+  selector: 'app-sign-up',
+  templateUrl: './sign-up.html',
   imports: [FormsModule, RouterLink],
 })
-export class LoginPage {
+export class SignUpPage {
   private readonly store = inject(Store);
 
+  displayName = '';
   email = '';
   password = '';
 
