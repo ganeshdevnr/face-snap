@@ -5,7 +5,7 @@ import { EMPTY, of } from 'rxjs';
 import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { MessagingService } from '../../services/messaging/messaging.service';
 import { loadChannelsSuccess } from './channels.actions';
-import { loadMessages, loadMessagesFailure, loadMessagesSuccess, messageReceived, selectConversation, sendMessage, sendMessageFailure, sendMessageSuccess } from './messages.actions';
+import { loadMessages, loadMessagesFailure, loadMessagesSuccess, messageReceived, messageStatusUpdated, selectConversation, sendMessage, sendMessageFailure, sendMessageSuccess } from './messages.actions';
 import { selectMessagesForConversation } from './messages.selectors';
 
 export class MessagesEffects {
@@ -64,6 +64,22 @@ export class MessagesEffects {
           map((message) => messageReceived({ message }))
         );
       })
+    )
+  );
+
+  markDelivered$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(messageReceived),
+      switchMap(({ message }) =>
+        this.messagingService.updateMessageStatus(message.id, 'delivered').pipe(
+          map(() => messageStatusUpdated({
+            conversationId: message.conversationId,
+            messageId: message.id,
+            status: 'delivered',
+          })),
+          catchError(() => EMPTY)
+        )
+      )
     )
   );
 }
