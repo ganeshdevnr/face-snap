@@ -5,6 +5,7 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 import { routes } from './app.routes';
 import { postsReducer } from './store/posts/posts.reducer';
@@ -23,6 +24,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     provideStore({ posts: postsReducer, friendSuggestions: friendSuggestionsReducer, auth: authReducer }),
     provideEffects([PostsEffects, FriendSuggestionsEffects, AuthEffects]),
+    provideStoreDevtools({ maxAge: 25, logOnly: false }),
     provideAppInitializer(authInitializer),
   ],
 };
