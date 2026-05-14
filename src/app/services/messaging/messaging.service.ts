@@ -136,6 +136,31 @@ export class MessagingService {
     });
   }
 
+  subscribeToAllMessages(conversationIds: string[]): Observable<Message> {
+    return new Observable<Message>((subscriber) => {
+      const channel = this.supabase
+        .channel('messages-all')
+        .on(
+          'postgres_changes',
+          { event: 'INSERT', schema: 'public', table: 'messages' },
+          (payload) => {
+            if (conversationIds.includes(payload.new['conversation_id'])) {
+              subscriber.next(this.mapToMessage(payload.new));
+            }
+          }
+        )
+        .subscribe((status) => {
+          if (status === 'CHANNEL_ERROR') {
+            subscriber.error(new Error('Realtime channel error on messages-all'));
+          }
+        });
+
+      return () => {
+        this.supabase.removeChannel(channel);
+      };
+    });
+  }
+
   private mapToMessage(row: any): Message {
     return {
       id: row.id,

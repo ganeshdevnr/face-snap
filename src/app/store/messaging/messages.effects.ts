@@ -4,7 +4,8 @@ import { Store } from '@ngrx/store';
 import { EMPTY, of } from 'rxjs';
 import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { MessagingService } from '../../services/messaging/messaging.service';
-import { loadMessages, loadMessagesFailure, loadMessagesSuccess, selectConversation, sendMessage, sendMessageFailure, sendMessageSuccess } from './messages.actions';
+import { loadChannelsSuccess } from './channels.actions';
+import { loadMessages, loadMessagesFailure, loadMessagesSuccess, messageReceived, selectConversation, sendMessage, sendMessageFailure, sendMessageSuccess } from './messages.actions';
 import { selectMessagesForConversation } from './messages.selectors';
 
 export class MessagesEffects {
@@ -51,6 +52,18 @@ export class MessagesEffects {
           })))
         )
       )
+    )
+  );
+
+  listenForNewMessages$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadChannelsSuccess),
+      switchMap(({ channels }) => {
+        const conversationIds = channels.map((c) => c.conversationId);
+        return this.messagingService.subscribeToAllMessages(conversationIds).pipe(
+          map((message) => messageReceived({ message }))
+        );
+      })
     )
   );
 }

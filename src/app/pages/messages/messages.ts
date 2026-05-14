@@ -39,7 +39,7 @@ export class MessagesPage {
       conversationId,
       authorId: user.id,
       content,
-      status: 'sent',
+      status: null,
       createdAt: new Date().toISOString(),
       uiStatus: 'pending',
     };

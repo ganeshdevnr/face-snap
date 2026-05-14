@@ -38,15 +38,38 @@
             </div>
           } @else {
             @for (msg of messages(); track msg.id) {
-              <div class="flex" [class.justify-end]="msg.authorId === authUser()?.id">
+              @let isMine = msg.authorId === authUser()?.id;
+              <div class="flex" [class.justify-end]="isMine">
                 <div class="max-w-xs px-4 py-2.5 rounded-2xl text-sm leading-relaxed"
-                     [class.bg-primary]="msg.authorId === authUser()?.id"
-                     [class.text-white]="msg.authorId === authUser()?.id"
-                     [class.rounded-br-sm]="msg.authorId === authUser()?.id"
-                     [class.bg-gray-100]="msg.authorId !== authUser()?.id"
-                     [class.text-gray-800]="msg.authorId !== authUser()?.id"
-                     [class.rounded-bl-sm]="msg.authorId !== authUser()?.id">
+                     [class.bg-primary]="isMine"
+                     [class.text-white]="isMine"
+                     [class.rounded-br-sm]="isMine"
+                     [class.bg-gray-100]="!isMine"
+                     [class.text-gray-800]="!isMine"
+                     [class.rounded-bl-sm]="!isMine">
                   {{ msg.content }}
+                  @if (isMine) {
+                    <span class="flex justify-end mt-1">
+                      @if (msg.status === 'sent') {
+                        <!-- single tick -->
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="opacity-70">
+                          <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                      } @else if (msg.status === 'delivered') {
+                        <!-- double tick grey -->
+                        <svg width="16" height="12" viewBox="0 0 32 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="opacity-70">
+                          <polyline points="20 6 9 17 4 12"/>
+                          <polyline points="28 6 17 17 12 12"/>
+                        </svg>
+                      } @else if (msg.status === 'read') {
+                        <!-- double tick blue -->
+                        <svg width="16" height="12" viewBox="0 0 32 24" fill="none" stroke="#60A5FA" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                          <polyline points="20 6 9 17 4 12"/>
+                          <polyline points="28 6 17 17 12 12"/>
+                        </svg>
+                      }
+                    </span>
+                  }
                 </div>
               </div>
             }
