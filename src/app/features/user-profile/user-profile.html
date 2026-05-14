@@ -2,30 +2,34 @@
 
   <!-- Avatar -->
   <div class="w-20 h-20 mx-auto mb-3 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300 overflow-hidden">
-    <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="#9CA3AF">
-      <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
-    </svg>
+    @if (authUser()?.avatarUrl) {
+      <img [src]="authUser()!.avatarUrl" [alt]="authUser()!.displayName" class="w-full h-full object-cover" />
+    } @else {
+      <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="#9CA3AF">
+        <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+      </svg>
+    }
   </div>
 
   <!-- Name & role -->
-  <h2 class="font-bold text-gray-900 text-base">{{ profile.name }}</h2>
-  <p class="text-sm text-gray-500 mt-0.5">{{ profile.role }}</p>
+  <h2 class="font-bold text-gray-900 text-base">{{ authUser()?.displayName }}</h2>
+  <p class="text-sm text-gray-500 mt-0.5">{{ role }}</p>
 
   <!-- Bio -->
-  <p class="text-sm text-gray-600 mt-3 leading-relaxed">{{ profile.bio }}</p>
+  <p class="text-sm text-gray-600 mt-3 leading-relaxed">{{ bio }}</p>
 
   <!-- Stats -->
   <div class="flex justify-around mt-4 pt-4 border-t border-gray-100">
     <div>
-      <p class="font-bold text-gray-900 text-sm">{{ profile.posts }}</p>
+      <p class="font-bold text-gray-900 text-sm">{{ posts }}</p>
       <p class="text-xs text-gray-500">Posts</p>
     </div>
     <div>
-      <p class="font-bold text-gray-900 text-sm">{{ profile.followers }}</p>
+      <p class="font-bold text-gray-900 text-sm">{{ followers }}</p>
       <p class="text-xs text-gray-500">Followers</p>
     </div>
     <div>
-      <p class="font-bold text-gray-900 text-sm">{{ profile.following }}</p>
+      <p class="font-bold text-gray-900 text-sm">{{ following }}</p>
       <p class="text-xs text-gray-500">Following</p>
     </div>
   </div>
