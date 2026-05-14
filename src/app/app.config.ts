@@ -16,6 +16,7 @@ import { authReducer } from './store/auth/auth.reducer';
 import { AuthEffects } from './store/auth/auth.effects';
 import { authInitializer } from './core/auth.initializer';
 import { ChannelsEffects } from './store/messaging/channels.effects';
+import { MessagesEffects } from './store/messaging/messages.effects';
 import { channelsReducer } from './store/messaging/channels.reducer';
 import { messagesReducer } from './store/messaging/messages.reducer';
 
@@ -26,7 +27,7 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     provideStore({ posts: postsReducer, friendSuggestions: friendSuggestionsReducer, auth: authReducer, channels: channelsReducer, messages: messagesReducer }),
-    provideEffects([PostsEffects, FriendSuggestionsEffects, AuthEffects, ChannelsEffects]),
+    provideEffects([PostsEffects, FriendSuggestionsEffects, AuthEffects, ChannelsEffects, MessagesEffects]),
     provideStoreDevtools({ maxAge: 25, logOnly: false }),
     provideAppInitializer(authInitializer),
   ],

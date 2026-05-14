@@ -1,11 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { ChannelListComponent } from '../../features/channel-list/channel-list';
-
-interface Message {
-  id: number;
-  text: string;
-  mine: boolean;
-}
+import { Message } from '../../shared/models/message.model';
+import { selectAuthUser } from '../../store/auth/auth.selectors';
+import { selectActiveChannel } from '../../store/messaging/channels.selectors';
+import { sendMessage } from '../../store/messaging/messages.actions';
+import {
+  selectMessagesError,
+  selectMessagesLoading,
+  selectSelectedConversationId,
+  selectSelectedConversationMessages,
+} from '../../store/messaging/messages.selectors';
 
 @Component({
   selector: 'app-messages-page',
@@ -13,11 +18,33 @@ interface Message {
   imports: [ChannelListComponent],
 })
 export class MessagesPage {
-  readonly messages: Message[] = [
-    { id: 1, text: 'Hey! Loved your latest snap from New Zealand!', mine: false },
-    { id: 2, text: 'Thank you so much! It was an incredible trip.', mine: true },
-    { id: 3, text: 'The landscapes look absolutely breathtaking.', mine: false },
-    { id: 4, text: 'They really are. You should visit sometime!', mine: true },
-    { id: 5, text: 'Sounds great! See you then.', mine: false },
-  ];
+  private readonly store = inject(Store);
+
+  readonly messages = this.store.selectSignal(selectSelectedConversationMessages);
+  readonly isLoading = this.store.selectSignal(selectMessagesLoading);
+  readonly error = this.store.selectSignal(selectMessagesError);
+  readonly authUser = this.store.selectSignal(selectAuthUser);
+  readonly selectedConversationId = this.store.selectSignal(selectSelectedConversationId);
+  readonly activeChannel = this.store.selectSignal(selectActiveChannel);
+
+  onSend(inputEl: HTMLInputElement): void {
+    const content = inputEl.value.trim();
+    const conversationId = this.selectedConversationId();
+    const user = this.authUser();
+
+    if (!content || !conversationId || !user) return;
+
+    const message: Message = {
+      id: crypto.randomUUID(),
+      conversationId,
+      authorId: user.id,
+      content,
+      status: 'sent',
+      createdAt: new Date().toISOString(),
+      uiStatus: 'pending',
+    };
+
+    this.store.dispatch(sendMessage({ message }));
+    inputEl.value = '';
+  }
 }

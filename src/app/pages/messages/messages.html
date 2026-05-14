@@ -12,39 +12,54 @@
 
         <!-- Chat header -->
         <div class="px-5 py-3 border-b border-gray-200 flex items-center gap-3">
-          <div class="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#9CA3AF">
-              <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
-            </svg>
+          <div class="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0 overflow-hidden">
+            @if (activeChannel()?.avatarUrl) {
+              <img [src]="activeChannel()!.avatarUrl" [alt]="activeChannel()!.userName" class="w-full h-full object-cover" />
+            } @else {
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#9CA3AF">
+                <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+              </svg>
+            }
           </div>
           <div>
-            <p class="font-semibold text-gray-900 text-sm">Ember Franklin</p>
-            <p class="text-xs text-green-500 font-medium">Online</p>
+            <p class="font-semibold text-gray-900 text-sm">{{ activeChannel()?.userName }}</p>
           </div>
         </div>
 
         <!-- Messages -->
         <div class="flex-1 overflow-y-auto px-5 py-4 space-y-3">
-          @for (msg of messages; track msg.id) {
-            <div class="flex" [class.justify-end]="msg.mine">
-              <div class="max-w-xs px-4 py-2.5 rounded-2xl text-sm leading-relaxed"
-                   [class.bg-primary]="msg.mine"
-                   [class.text-white]="msg.mine"
-                   [class.rounded-br-sm]="msg.mine"
-                   [class.bg-gray-100]="!msg.mine"
-                   [class.text-gray-800]="!msg.mine"
-                   [class.rounded-bl-sm]="!msg.mine">
-                {{ msg.text }}
-              </div>
+          @if (isLoading()) {
+            <div class="flex items-center justify-center h-full">
+              <div class="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
             </div>
+          } @else if (error()) {
+            <div class="flex items-center justify-center h-full">
+              <p class="text-sm text-red-500">{{ error() }}</p>
+            </div>
+          } @else {
+            @for (msg of messages(); track msg.id) {
+              <div class="flex" [class.justify-end]="msg.authorId === authUser()?.id">
+                <div class="max-w-xs px-4 py-2.5 rounded-2xl text-sm leading-relaxed"
+                     [class.bg-primary]="msg.authorId === authUser()?.id"
+                     [class.text-white]="msg.authorId === authUser()?.id"
+                     [class.rounded-br-sm]="msg.authorId === authUser()?.id"
+                     [class.bg-gray-100]="msg.authorId !== authUser()?.id"
+                     [class.text-gray-800]="msg.authorId !== authUser()?.id"
+                     [class.rounded-bl-sm]="msg.authorId !== authUser()?.id">
+                  {{ msg.content }}
+                </div>
+              </div>
+            }
           }
         </div>
 
         <!-- Message input -->
         <div class="px-5 py-4 border-t border-gray-200 flex items-center gap-3">
-          <input type="text" placeholder="Write a message…"
-                 class="flex-1 bg-gray-100 rounded-full px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/20 transition" />
-          <button class="w-9 h-9 bg-primary text-white rounded-full flex items-center justify-center hover:bg-primary-dark transition-colors flex-shrink-0">
+          <input #inputEl type="text" placeholder="Write a message…"
+                 class="flex-1 bg-gray-100 rounded-full px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/20 transition"
+                 (keydown.enter)="onSend(inputEl)" />
+          <button class="w-9 h-9 bg-primary text-white rounded-full flex items-center justify-center hover:bg-primary-dark transition-colors flex-shrink-0"
+                  (click)="onSend(inputEl)">
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <line x1="22" y1="2" x2="11" y2="13"/>

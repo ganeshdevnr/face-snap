@@ -10,7 +10,8 @@
   <ul class="flex-1 overflow-y-auto divide-y divide-gray-50">
     @for (channel of channels(); track channel.conversationId) {
       <li class="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-gray-50 transition-colors"
-          [class.bg-orange-50]="selectedConversationId() === channel.conversationId">
+          [class.bg-orange-50]="selectedConversationId() === channel.conversationId"
+          (click)="onSelect(channel.conversationId)">
         <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0 overflow-hidden">
           @if (channel.avatarUrl) {
             <img [src]="channel.avatarUrl" [alt]="channel.userName" class="w-full h-full object-cover" />

@@ -65,24 +65,30 @@ export const messagesReducer = createReducer(
     messages: {
       ...state.messages,
       [message.conversationId]: [
+        { ...message, uiStatus: 'pending' as const },
         ...(state.messages[message.conversationId] ?? []),
-        message,
       ],
     },
   })),
 
-  on(sendMessageSuccess, (state, { message }) => ({
+  on(sendMessageSuccess, (state, { tempId, message }) => ({
     ...state,
     messages: {
       ...state.messages,
       [message.conversationId]: (state.messages[message.conversationId] ?? []).map((m) =>
-        m.id === message.id ? { ...m, uiStatus: 'sent' as const } : m
+        m.id === tempId ? { ...message, uiStatus: 'sent' as const } : m
       ),
     },
   })),
 
-  on(sendMessageFailure, (state, { error }) => ({
+  on(sendMessageFailure, (state, { tempId, conversationId, error }) => ({
     ...state,
+    messages: {
+      ...state.messages,
+      [conversationId]: (state.messages[conversationId] ?? []).map((m) =>
+        m.id === tempId ? { ...m, uiStatus: 'failed' as const } : m
+      ),
+    },
     messagesError: error,
   })),
 
@@ -101,8 +107,8 @@ export const messagesReducer = createReducer(
     messages: {
       ...state.messages,
       [message.conversationId]: [
-        ...(state.messages[message.conversationId] ?? []),
         message,
+        ...(state.messages[message.conversationId] ?? []),
       ],
     },
   })),

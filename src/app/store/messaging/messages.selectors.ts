@@ -18,3 +18,16 @@ export const selectMessagesLoading = createSelector(
   selectMessagesState,
   (state) => state.messagesLoading
 );
+
+export const selectMessagesError = createSelector(
+  selectMessagesState,
+  (state) => state.messagesError
+);
+
+export const selectSelectedConversationMessages = createSelector(
+  selectMessagesState,
+  (state) =>
+    state.selectedConversationId
+      ? [...(state.messages[state.selectedConversationId] ?? [])].reverse()
+      : []
+);

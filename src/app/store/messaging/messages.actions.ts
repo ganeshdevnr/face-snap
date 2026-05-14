@@ -28,12 +28,12 @@ export const sendMessage = createAction(
 
 export const sendMessageSuccess = createAction(
   '[Messaging] Send Message Success',
-  props<{ message: Message }>()
+  props<{ tempId: string; message: Message }>()
 );
 
 export const sendMessageFailure = createAction(
   '[Messaging] Send Message Failure',
-  props<{ error: string }>()
+  props<{ tempId: string; conversationId: string; error: string }>()
 );
 
 export const deleteMessage = createAction(

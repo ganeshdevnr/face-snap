@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { loadChannels } from '../../store/messaging/channels.actions';
 import { selectChannelLoading, selectChannels } from '../../store/messaging/channels.selectors';
+import { selectConversation } from '../../store/messaging/messages.actions';
 import { selectSelectedConversationId } from '../../store/messaging/messages.selectors';
 import { TimeAgoPipe } from '../../shared/pipes/time-ago.pipe';
 
@@ -20,5 +21,9 @@ export class ChannelListComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(loadChannels());
+  }
+
+  onSelect(conversationId: string): void {
+    this.store.dispatch(selectConversation({ conversationId }));
   }
 }
