@@ -15,6 +15,9 @@ import { FriendSuggestionsEffects } from './store/friendSuggestions/friendSugges
 import { authReducer } from './store/auth/auth.reducer';
 import { AuthEffects } from './store/auth/auth.effects';
 import { authInitializer } from './core/auth.initializer';
+import { ChannelsEffects } from './store/messaging/channels.effects';
+import { channelsReducer } from './store/messaging/channels.reducer';
+import { messagesReducer } from './store/messaging/messages.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,8 +25,8 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
-    provideStore({ posts: postsReducer, friendSuggestions: friendSuggestionsReducer, auth: authReducer }),
-    provideEffects([PostsEffects, FriendSuggestionsEffects, AuthEffects]),
+    provideStore({ posts: postsReducer, friendSuggestions: friendSuggestionsReducer, auth: authReducer, channels: channelsReducer, messages: messagesReducer }),
+    provideEffects([PostsEffects, FriendSuggestionsEffects, AuthEffects, ChannelsEffects]),
     provideStoreDevtools({ maxAge: 25, logOnly: false }),
     provideAppInitializer(authInitializer),
   ],

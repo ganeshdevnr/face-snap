@@ -11,6 +11,10 @@ export class SupabaseService {
     environment.supabaseKey
   );
 
+  get client(): SupabaseClient {
+    return this.supabase;
+  }
+
   getFriendRequested(userId: string): Observable<string[]> {
     return from(
       this.supabase.from('friend_requests').select('friend_id').eq('user_id', userId)
