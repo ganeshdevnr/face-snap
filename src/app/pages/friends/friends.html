@@ -1,0 +1,128 @@
+<div class="min-h-screen pt-14">
+  <div class="max-w-4xl mx-auto px-4 py-6">
+    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden flex" style="height: calc(100vh - 6rem)">
+
+      <!-- Left sidebar -->
+      <div class="w-60 border-r border-gray-200 flex flex-col flex-shrink-0">
+        <div class="px-5 py-4 border-b border-gray-100">
+          <h2 class="font-bold text-gray-900 text-lg">Friends</h2>
+        </div>
+        <nav class="flex flex-col p-3 gap-1">
+
+          <!-- Friends (active) -->
+          <button class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium bg-primary/10 text-primary w-full text-left">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            Friends
+          </button>
+
+          <!-- Received Requests -->
+          <button class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 w-full text-left transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="8.5" cy="7" r="4"/>
+              <line x1="20" y1="8" x2="20" y2="14"/>
+              <line x1="23" y1="11" x2="17" y2="11"/>
+            </svg>
+            Received Requests
+          </button>
+
+          <!-- Sent Requests -->
+          <button class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 w-full text-left transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="8.5" cy="7" r="4"/>
+              <polyline points="17 11 19 13 23 9"/>
+            </svg>
+            Sent Requests
+          </button>
+
+        </nav>
+      </div>
+
+      <!-- Right panel -->
+      <div class="flex-1 flex flex-col min-w-0">
+
+        <!-- Section header -->
+        <div class="px-6 py-4 border-b border-gray-100 flex-shrink-0">
+          <h3 class="font-semibold text-gray-900">Friends <span class="text-gray-400 font-normal text-sm">· 4</span></h3>
+        </div>
+
+        <!-- Cards grid -->
+        <div class="overflow-y-auto flex-1 p-5">
+          <div class="grid grid-cols-2 gap-4">
+
+            <!-- Card 1 -->
+            <div class="border border-gray-200 rounded-xl p-4 flex flex-col gap-4 hover:shadow-sm transition-shadow">
+              <div class="flex items-center gap-3">
+                <img src="https://i.pravatar.cc/150?u=alice123" alt="Alice Johnson"
+                     class="w-12 h-12 rounded-full object-cover flex-shrink-0" />
+                <div class="min-w-0">
+                  <p class="font-semibold text-gray-900 text-sm truncate">Alice Johnson</p>
+                  <p class="text-xs text-gray-400">1 day ago</p>
+                </div>
+              </div>
+              <button class="w-full py-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+                Unfriend
+              </button>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="border border-gray-200 rounded-xl p-4 flex flex-col gap-4 hover:shadow-sm transition-shadow">
+              <div class="flex items-center gap-3">
+                <img src="https://i.pravatar.cc/150?u=bob456" alt="Bob Martinez"
+                     class="w-12 h-12 rounded-full object-cover flex-shrink-0" />
+                <div class="min-w-0">
+                  <p class="font-semibold text-gray-900 text-sm truncate">Bob Martinez</p>
+                  <p class="text-xs text-gray-400">3 days ago</p>
+                </div>
+              </div>
+              <button class="w-full py-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+                Unfriend
+              </button>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="border border-gray-200 rounded-xl p-4 flex flex-col gap-4 hover:shadow-sm transition-shadow">
+              <div class="flex items-center gap-3">
+                <img src="https://i.pravatar.cc/150?u=carol789" alt="Carol Chen"
+                     class="w-12 h-12 rounded-full object-cover flex-shrink-0" />
+                <div class="min-w-0">
+                  <p class="font-semibold text-gray-900 text-sm truncate">Carol Chen</p>
+                  <p class="text-xs text-gray-400">1 week ago</p>
+                </div>
+              </div>
+              <button class="w-full py-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+                Unfriend
+              </button>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="border border-gray-200 rounded-xl p-4 flex flex-col gap-4 hover:shadow-sm transition-shadow">
+              <div class="flex items-center gap-3">
+                <img src="https://i.pravatar.cc/150?u=david321" alt="David Park"
+                     class="w-12 h-12 rounded-full object-cover flex-shrink-0" />
+                <div class="min-w-0">
+                  <p class="font-semibold text-gray-900 text-sm truncate">David Park</p>
+                  <p class="text-xs text-gray-400">2 weeks ago</p>
+                </div>
+              </div>
+              <button class="w-full py-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+                Unfriend
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
