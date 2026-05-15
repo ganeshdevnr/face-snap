@@ -36,7 +36,11 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(loginSuccess),
-        tap(() => this.router.navigate(['/feed']))
+        tap(() => {
+          const pathname = window.location.pathname;
+          const target = (pathname === '/login' || pathname === '/') ? '/feed' : pathname;
+          this.router.navigate([target]);
+        })
       ),
     { dispatch: false }
   );
