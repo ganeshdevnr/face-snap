@@ -1,11 +1,11 @@
 import { createAction, props } from '@ngrx/store';
-import { FriendSuggestion } from '../../shared/models/friend-suggestion.model';
+import { Friend } from '../../shared/models/friend.model';
 
 export const loadFriendSuggestions = createAction('[Friend Suggestions] Load Friend Suggestions');
 
 export const loadFriendSuggestionsSuccess = createAction(
   '[Friend Suggestions] Load Friend Suggestions Success',
-  props<{ users: FriendSuggestion[]; friendRequested: string[] }>()
+  props<{ users: Friend[]; friendRequested: string[] }>()
 );
 
 export const loadFriendSuggestionsFailure = createAction(

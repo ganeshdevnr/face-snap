@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { from, map, Observable, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { FriendSuggestion } from '../../shared/models/friend-suggestion.model';
+import { Friend } from '../../shared/models/friend.model';
 
 @Injectable({ providedIn: 'root' })
 export class SupabaseService {
@@ -26,7 +26,7 @@ export class SupabaseService {
     );
   }
 
-  getFriendSuggestions(): Observable<FriendSuggestion[]> {
+  getFriendSuggestions(): Observable<Friend[]> {
     return from(
       this.supabase.from('profiles').select('user_id, display_name, avatar_url').limit(10)
     ).pipe(

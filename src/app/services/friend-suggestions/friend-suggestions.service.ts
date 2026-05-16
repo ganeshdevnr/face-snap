@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, switchMap, throwError } from 'rxjs';
-import { FriendSuggestion } from '../../shared/models/friend-suggestion.model';
+import { Friend } from '../../shared/models/friend.model';
 
 interface DummyJsonUser {
   id: number;
@@ -39,7 +39,7 @@ export class FriendSuggestionsService {
     );
   }
 
-  getFriendSuggestions(): Observable<FriendSuggestion[]> {
+  getFriendSuggestions(): Observable<Friend[]> {
     return this.http.get<DummyJsonResponse>(this.url).pipe(
       map(({ users }) =>
         users.map((user) => ({

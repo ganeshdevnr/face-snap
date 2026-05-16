@@ -1,5 +1,5 @@
 import { createReducer, on } from "@ngrx/store";
-import { FriendSuggestion } from "../../shared/models/friend-suggestion.model";
+import { Friend } from "../../shared/models/friend.model";
 import {
   loadFriendSuggestions,
   loadFriendSuggestionsSuccess,
@@ -14,7 +14,7 @@ import {
 
 
 export interface FriendSuggestionsState {
-  users: FriendSuggestion[];
+  users: Friend[];
   friendRequested: string[];
   isLoading: boolean;
   error: string | null;

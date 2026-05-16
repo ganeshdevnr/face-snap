@@ -1,5 +1,5 @@
 
-export interface FriendSuggestion {
+export interface Friend {
   userId: string;
   name: string;
   handle: string;
