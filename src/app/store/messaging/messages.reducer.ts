@@ -102,16 +102,20 @@ export const messagesReducer = createReducer(
     },
   })),
 
-  on(messageReceived, (state, { message }) => ({
-    ...state,
-    messages: {
-      ...state.messages,
-      [message.conversationId]: [
-        message,
-        ...(state.messages[message.conversationId] ?? []),
-      ],
-    },
-  })),
+  on(messageReceived, (state, { message }) => {
+    // Dedup: skip if already present (e.g. own message echoed back via Supabase real-time)
+    const existing = state.messages[message.conversationId];
+    if (existing?.some(m => m.id === message.id)) {
+      return state;
+    }
+    return {
+      ...state,
+      messages: {
+        ...state.messages,
+        [message.conversationId]: [message, ...(existing ?? [])],
+      },
+    };
+  }),
 
   on(messageStatusUpdated, (state, { conversationId, messageId, status }) => ({
     ...state,

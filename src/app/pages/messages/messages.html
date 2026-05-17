@@ -33,7 +33,7 @@
       </div>
 
       <!-- Messages -->
-      <div class="flex-1 overflow-y-auto px-5 py-5 flex flex-col gap-2">
+      <div #messagesContainer class="flex-1 overflow-y-auto px-5 py-5 flex flex-col gap-2">
         @if (isLoading()) {
           <div class="flex items-center justify-center flex-1">
             <div class="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
