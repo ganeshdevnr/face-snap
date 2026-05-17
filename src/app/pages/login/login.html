@@ -1,20 +1,20 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-50">
-  <div class="bg-white rounded-xl border border-gray-200 p-8 w-full max-w-sm">
+<div class="min-h-screen flex items-center justify-center">
+  <div class="bg-bg-card rounded-xl border border-border p-8 w-full max-w-sm">
 
     <div class="flex items-center justify-center gap-2 mb-8">
       <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
-           stroke="#E8442A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+           stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
         <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
         <circle cx="12" cy="13" r="4"/>
       </svg>
-      <span class="font-bold text-xl text-gray-900 tracking-tight">FaceSnap</span>
+      <span class="font-serif font-bold italic text-xl text-primary tracking-tight">FaceSnap</span>
     </div>
 
-    <h2 class="text-lg font-semibold text-gray-900 mb-6 text-center">Sign in to your account</h2>
+    <h2 class="text-lg font-semibold text-white mb-6 text-center">Sign in to your account</h2>
 
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="flex flex-col gap-4">
       <div class="flex flex-col gap-1">
-        <label for="email" class="text-sm font-medium text-gray-700">Email</label>
+        <label for="email" class="text-sm font-medium text-gray-400">Email</label>
         <input
           id="email"
           type="email"
@@ -22,12 +22,12 @@
           [(ngModel)]="email"
           required
           placeholder="you@example.com"
-          class="border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+          class="bg-bg-input border border-border rounded-lg px-3 py-2 text-sm text-white outline-none focus:ring-2 focus:ring-primary focus:border-transparent placeholder:text-gray-600"
         />
       </div>
 
       <div class="flex flex-col gap-1">
-        <label for="password" class="text-sm font-medium text-gray-700">Password</label>
+        <label for="password" class="text-sm font-medium text-gray-400">Password</label>
         <input
           id="password"
           type="password"
@@ -35,7 +35,7 @@
           [(ngModel)]="password"
           required
           placeholder="••••••••"
-          class="border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+          class="bg-bg-input border border-border rounded-lg px-3 py-2 text-sm text-white outline-none focus:ring-2 focus:ring-primary focus:border-transparent placeholder:text-gray-600"
         />
       </div>
 
@@ -56,7 +56,7 @@
       </button>
 
       @if (error()) {
-        <p class="text-sm text-red-500 text-center">{{ error() }}</p>
+        <p class="text-sm text-primary text-center">{{ error() }}</p>
       }
     </form>
 

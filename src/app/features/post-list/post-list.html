@@ -1,42 +1,44 @@
 @if (isLoading() && posts().length === 0) {
-  <div class="space-y-4">
+  <div class="flex flex-col gap-[14px]">
     @for (skeleton of [1, 2, 3]; track skeleton) {
-      <div class="bg-white rounded-xl border border-gray-200 p-4 animate-pulse">
-        <div class="flex items-center gap-3 mb-3">
-          <div class="w-10 h-10 rounded-full bg-gray-200"></div>
-          <div class="space-y-1.5">
-            <div class="h-3 w-28 bg-gray-200 rounded"></div>
-            <div class="h-2.5 w-16 bg-gray-200 rounded"></div>
+      <div class="bg-bg-card rounded-[24px] border border-border p-5 animate-pulse">
+        <div class="flex items-center gap-[11px] mb-[14px]">
+          <div class="w-[38px] h-[38px] rounded-full bg-border flex-shrink-0"></div>
+          <div class="flex-1 space-y-[6px]">
+            <div class="h-3 w-28 bg-border rounded-full"></div>
+            <div class="h-2.5 w-16 bg-border rounded-full"></div>
           </div>
         </div>
         <div class="space-y-2">
-          <div class="h-3 bg-gray-200 rounded w-full"></div>
-          <div class="h-3 bg-gray-200 rounded w-4/5"></div>
+          <div class="h-3 bg-border rounded-full w-full"></div>
+          <div class="h-3 bg-border rounded-full w-4/5"></div>
+          <div class="h-3 bg-border rounded-full w-3/5"></div>
         </div>
       </div>
     }
   </div>
 } @else if (error()) {
-  <div class="bg-white rounded-xl border border-red-200 p-6 text-center">
-    <p class="text-sm font-medium text-red-600 mb-1">Failed to load posts</p>
-    <p class="text-xs text-gray-500">{{ error() }}</p>
+  <div class="bg-bg-card rounded-[24px] border border-border p-6 text-center">
+    <p class="text-sm font-medium text-primary mb-1">Failed to load posts</p>
+    <p class="text-[13px] text-text-3">{{ error() }}</p>
   </div>
 } @else {
-  <div class="flex flex-col gap-8">
-    @for (post of posts(); track post.postId) {
-      <app-post-card [post]="post" />
+  <div class="flex flex-col gap-[14px]">
+    @for (post of posts(); track post.postId; let i = $index) {
+      <app-post-card [post]="post"
+                     class="animate-slide-up"
+                     [style.animation-delay]="(i * 0.09) + 's'" />
     }
   </div>
 }
 
-<!-- Sentinel: always in the DOM so the observer can be set up on first render -->
 <div #sentinel class="h-px"></div>
 
 @if (isLoading() && posts().length > 0) {
   <div class="flex justify-center py-8">
     <svg class="animate-spin h-6 w-6 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
-      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
     </svg>
   </div>
 }

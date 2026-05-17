@@ -1,32 +1,60 @@
-<div class="bg-white rounded-xl border border-gray-200 p-4">
+<div class="bg-bg-card border border-border rounded-[24px] p-5
+            transition-[border-color] duration-200 hover:border-border-hover">
 
-  <h3 class="font-semibold text-gray-900 mb-4">Friend Suggestions</h3>
+  <!-- Title: Syne font -->
+  <h3 class="font-display font-bold text-[13px] text-text tracking-[-0.1px] mb-[14px]">
+    People you may know
+  </h3>
 
   @if (isLoading()) {
     <div class="flex items-center justify-center py-6">
-      <svg class="animate-spin h-6 w-6 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <svg class="animate-spin h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
       </svg>
     </div>
   } @else if (error()) {
-    <p class="text-sm text-red-500 text-center py-4">{{ error() }}</p>
+    <p class="text-[13px] text-primary text-center py-4">{{ error() }}</p>
   } @else {
-    <ul class="space-y-3">
-      @for (person of suggestions(); track person.handle) {
-        <li class="flex items-center gap-3">
-          <img [src]="person.avatarUrl" [alt]="person.name" class="w-9 h-9 rounded-full object-cover flex-shrink-0" />
-          <div class="flex-1 min-w-0">
-            <p class="font-medium text-sm text-gray-900 truncate">{{ person.name }}</p>
-            <p class="text-xs text-gray-500 truncate">@{{ person.handle }}</p>
+    <ul>
+      @for (person of suggestions(); track person.handle; let i = $index; let last = $last) {
+        <li [class]="'flex items-center gap-[10px] py-[8px]' + (last ? '' : ' border-b border-border')">
+
+          <!-- Avatar: 34px, gradient by index -->
+          <div [class]="'w-[34px] h-[34px] rounded-full flex-shrink-0 flex items-center justify-center overflow-hidden av-grad-' + (i % 8)">
+            @if (person.avatarUrl) {
+              <img [src]="person.avatarUrl" [alt]="person.name" class="w-full h-full object-cover" />
+            } @else {
+              <span class="text-white font-display font-bold text-[11px]">
+                {{ person.name.slice(0, 2).toUpperCase() }}
+              </span>
+            }
           </div>
+
+          <!-- Info -->
+          <div class="flex-1 min-w-0">
+            <p class="text-[12px] font-semibold text-text truncate">{{ person.name }}</p>
+            <p class="text-[10px] text-text-3 truncate">@{{ person.handle }}</p>
+          </div>
+
+          <!-- Action button -->
           @if (person.isRequested) {
-            <button (click)="onCancelFriendRequest(person.userId)" class="flex-shrink-0 px-3 py-1.5 bg-gray-200 text-gray-600 text-xs font-semibold rounded-full hover:bg-gray-300 transition-colors">
-              Cancel
+            <button (click)="onCancelFriendRequest(person.userId)"
+                    class="flex-shrink-0 px-[11px] py-[5px] rounded-full
+                           bg-bg-card border border-border text-text-2
+                           font-body text-[11px] font-semibold whitespace-nowrap
+                           hover:bg-bg-card-hover
+                           transition-all duration-[180ms]">
+              Pending
             </button>
           } @else {
-            <button (click)="onAddFriend(person.userId)" class="flex-shrink-0 px-3 py-1.5 bg-primary text-white text-xs font-semibold rounded-full hover:bg-primary-dark transition-colors">
-              Add Friend
+            <button (click)="onAddFriend(person.userId)"
+                    class="flex-shrink-0 px-[11px] py-[5px] rounded-full
+                           bg-primary text-white
+                           font-body text-[11px] font-semibold whitespace-nowrap
+                           hover:bg-[#ff5a85] hover:-translate-y-[1px] hover:shadow-[0_0_18px_rgba(255,61,113,0.3)]
+                           transition-all duration-[180ms]">
+              + Add
             </button>
           }
         </li>
