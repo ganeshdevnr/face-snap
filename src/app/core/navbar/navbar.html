@@ -1,82 +1,111 @@
-<header class="fixed top-0 inset-x-0 z-50 h-14 bg-white border-b border-gray-200">
-  <div class="max-w-6xl mx-auto h-full flex items-center justify-between px-6">
+<header class="fixed top-0 inset-x-0 z-50 h-[58px] flex items-center px-7
+            bg-[rgba(8,9,15,0.85)] backdrop-blur-[24px] border-b border-border">
 
-    <!-- Left: App name -->
-    <a routerLink="/feed" class="flex items-center gap-2 no-underline">
-      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
-           stroke="#E8442A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-        <circle cx="12" cy="13" r="4"/>
+  <!-- Logo: 200px, Syne, gradient text -->
+  <a routerLink="/feed" class="no-underline w-[200px] flex-shrink-0">
+    <span class="logo-gradient font-display font-extrabold text-[20px] tracking-[-0.5px]">FaceSnap</span>
+  </a>
+
+  <!-- Center tabs: icon + label inline, ::after underline via .nav-active CSS -->
+  <nav class="flex-1 flex justify-center gap-[2px]">
+    @if (user()) {
+      <a routerLink="/feed" routerLinkActive="nav-active"
+         class="nav-tab flex items-center gap-[7px] px-5 py-[7px] rounded-[10px]
+                text-text-2 hover:text-text font-body text-[14px] font-medium
+                transition-colors duration-200 no-underline cursor-pointer">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+        Feed
+      </a>
+      <a routerLink="/friends" routerLinkActive="nav-active"
+         class="nav-tab flex items-center gap-[7px] px-5 py-[7px] rounded-[10px]
+                text-text-2 hover:text-text font-body text-[14px] font-medium
+                transition-colors duration-200 no-underline cursor-pointer">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/>
+          <path d="M16 3.13a4 4 0 010 7.75M21 21v-2a4 4 0 00-3-3.85"/>
+        </svg>
+        Friends
+      </a>
+      <a routerLink="/messages" routerLinkActive="nav-active"
+         class="nav-tab flex items-center gap-[7px] px-5 py-[7px] rounded-[10px]
+                text-text-2 hover:text-text font-body text-[14px] font-medium
+                transition-colors duration-200 no-underline cursor-pointer">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+        </svg>
+        Messages
+      </a>
+    }
+  </nav>
+
+  <!-- Right: 200px, icon-btns -->
+  <div class="w-[200px] flex justify-end items-center gap-[10px]">
+
+    <!-- Contact icon-btn -->
+    <a routerLink="/contact" routerLinkActive="nav-active"
+       class="w-[34px] h-[34px] rounded-full bg-bg-card border border-border
+              flex items-center justify-center text-text-2
+              hover:bg-bg-card-hover hover:text-text hover:border-border-hover
+              transition-all duration-[180ms]">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-9.94 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.55-1.12a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
       </svg>
-      <span class="font-bold text-xl text-gray-900 tracking-tight">FaceSnap</span>
     </a>
 
-    <!-- Center: Navigation -->
-    <nav class="flex items-center">
-      @if (user()) {
-        <a routerLink="/feed" routerLinkActive="text-primary border-b-2 border-primary"
-           class="flex flex-col items-center gap-0.5 px-8 py-2 text-gray-400 hover:text-primary transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-            <polyline points="9 22 9 12 15 12 15 22"/>
-          </svg>
-          <span class="text-xs font-medium">Feed</span>
-        </a>
-        <a routerLink="/friends" routerLinkActive="text-primary border-b-2 border-primary"
-           class="flex flex-col items-center gap-0.5 px-8 py-2 text-gray-400 hover:text-primary transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-            <circle cx="9" cy="7" r="4"/>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-          </svg>
-          <span class="text-xs font-medium">Friends</span>
-        </a>
-        <a routerLink="/messages" routerLinkActive="text-primary border-b-2 border-primary"
-           class="flex flex-col items-center gap-0.5 px-8 py-2 text-gray-400 hover:text-primary transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-          </svg>
-          <span class="text-xs font-medium">Messages</span>
-        </a>
-      }
-    </nav>
+    <!-- GitHub icon-btn -->
+    <a href="https://github.com/ganeshdevnr/face-snap" target="_blank" rel="noopener noreferrer"
+       class="w-[34px] h-[34px] rounded-full bg-bg-card border border-border
+              flex items-center justify-center text-text-2
+              hover:bg-bg-card-hover hover:text-text hover:border-border-hover
+              transition-all duration-[180ms]">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+      </svg>
+    </a>
 
-    <!-- Right: User avatar -->
-    <div class="flex items-center gap-3">
-      <a href="https://github.com/ganeshdevnr/face-snap" target="_blank" rel="noopener noreferrer"
-         class="text-gray-400 hover:text-gray-900 transition-colors">
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+    @if (user()) {
+      <!-- Bell icon-btn with badge -->
+      <button class="relative w-[34px] h-[34px] rounded-full bg-bg-card border border-border
+                     flex items-center justify-center text-text-2
+                     hover:bg-bg-card-hover hover:text-text hover:border-border-hover
+                     transition-all duration-[180ms]">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 01-3.46 0"/>
         </svg>
-      </a>
-      @if (user()) {
-        <button class="relative">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
-               stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-          </svg>
-          <span class="absolute -top-1 -right-1 w-4 h-4 bg-primary rounded-full text-white text-[9px] flex items-center justify-center font-bold">3</span>
-        </button>
-        <div class="flex items-center gap-2">
-          <span class="text-sm font-medium text-gray-700">{{ user()!.displayName }}</span>
-          <img [src]="user()!.avatarUrl" [alt]="user()!.displayName"
-               class="w-9 h-9 rounded-full object-cover border-2 border-transparent hover:border-primary transition-colors" />
-          <button (click)="onLogout()" class="text-gray-400 hover:text-red-500 transition-colors" title="Logout">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-              <polyline points="16 17 21 12 16 7"/>
-              <line x1="21" y1="12" x2="9" y2="12"/>
-            </svg>
-          </button>
+        <span class="absolute -top-[3px] -right-[3px] w-4 h-4 rounded-full bg-primary
+                     text-[9px] font-bold text-white flex items-center justify-center
+                     border-2 border-bg-page">3</span>
+      </button>
+
+      <!-- User avatar -->
+      @if (user()!.avatarUrl) {
+        <img [src]="user()!.avatarUrl" [alt]="user()!.displayName"
+             class="w-8 h-8 rounded-full object-cover flex-shrink-0" />
+      } @else {
+        <div [class]="'w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center av-grad-' + (user()!.displayName.charCodeAt(0) % 8)">
+          <span class="text-white font-display font-bold text-[11px]">{{ user()!.displayName.charAt(0).toUpperCase() }}</span>
         </div>
       }
-    </div>
 
+      <!-- Logout -->
+      <button (click)="onLogout()" title="Logout"
+              class="w-[34px] h-[34px] rounded-full bg-bg-card border border-border
+                     flex items-center justify-center text-text-2
+                     hover:bg-bg-card-hover hover:text-text hover:border-border-hover
+                     transition-all duration-[180ms]">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+      </button>
+    }
   </div>
+
 </header>

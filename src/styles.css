@@ -1,15 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
+@import './styles/tokens.css';
 @import 'tailwindcss';
 
 @theme {
-  --color-primary: #E8442A;
-  --color-primary-dark: #C73921;
+  /* Brand */
+  --color-primary: var(--token-color-primary);
+  --color-primary-dark: var(--token-color-primary-dark);
+  --color-primary-dim: var(--token-color-primary-dim);
+  --color-primary-glow: var(--token-color-primary-glow);
+
+  /* Backgrounds */
+  --color-bg-page: var(--token-color-bg-page);
+  --color-bg-card: var(--token-color-bg-card);
+  --color-bg-card-hover: var(--token-color-bg-card-hover);
+  --color-bg-input: var(--token-color-bg-input);
+
+  /* Borders */
+  --color-border: var(--token-color-border);
+  --color-border-hover: var(--token-color-border-hover);
+
+  /* Text */
+  --color-text: var(--token-color-text);
+  --color-text-2: var(--token-color-text-2);
+  --color-text-3: var(--token-color-text-3);
+
+  /* Icons */
+  --color-icon-stroke: var(--token-color-icon-stroke);
+  --color-icon-fill: var(--token-color-icon-fill);
+
+  /* Messaging */
+  --color-message-read: var(--token-color-message-read);
+  --color-message-bubble-sent: var(--token-color-message-bubble-sent);
+  --color-message-bubble-sent-border: var(--token-color-message-bubble-sent-border);
+
+  /* Fonts */
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+
+  /* Typography */
+  --font-size-2xs: var(--token-font-size-2xs);
+  --font-size-3xs: var(--token-font-size-3xs);
 }
 
+/* ── Gradient utilities ── */
+@utility avatar-ring {
+  background: var(--token-gradient-avatar-ring);
+}
+@utility avatar-inner-bg {
+  background: var(--token-gradient-avatar-inner);
+}
+@utility logo-gradient {
+  background: var(--token-gradient-logo);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Avatar gradient palette — matches JSX GRADS array exactly */
+@utility av-grad-0 { background: linear-gradient(135deg, #FF3D71, #FF8A65); }
+@utility av-grad-1 { background: linear-gradient(135deg, #A855F7, #6366F1); }
+@utility av-grad-2 { background: linear-gradient(135deg, #0EA5E9, #06B6D4); }
+@utility av-grad-3 { background: linear-gradient(135deg, #10B981, #059669); }
+@utility av-grad-4 { background: linear-gradient(135deg, #F59E0B, #EF4444); }
+@utility av-grad-5 { background: linear-gradient(135deg, #EC4899, #8B5CF6); }
+@utility av-grad-6 { background: linear-gradient(135deg, #14B8A6, #3B82F6); }
+@utility av-grad-7 { background: linear-gradient(135deg, #F97316, #EAB308); }
+
 @utility img-placeholder {
-  background-image: repeating-conic-gradient(#d1d5db 0% 25%, #f9fafb 0% 50%);
+  background-image: repeating-conic-gradient(rgba(255,255,255,0.05) 0% 25%, transparent 0% 50%);
   background-size: 16px 16px;
 }
 
+/* ── Post entry animation ── */
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+@utility animate-slide-up {
+  animation: slide-up 0.4s ease both;
+}
+
+/* ── Chat bubble variants ── */
+@utility msg-bubble-sent {
+  background: var(--color-message-bubble-sent);
+  border: 1px solid var(--color-message-bubble-sent-border);
+  border-radius: 16px;
+  border-bottom-right-radius: 4px;
+}
+@utility msg-bubble-received {
+  background: var(--color-bg-card-hover);
+  border-radius: 16px;
+  border-bottom-left-radius: 4px;
+}
+
+/* ── Base ── */
 html, body {
-  @apply bg-[#F3F2EF];
+  font-family: 'DM Sans', sans-serif;
+  background-color: var(--token-color-bg-page);
+  color: var(--token-color-text);
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse 70% 50% at 15% -5%,  rgba(255, 61, 113, 0.13) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 45% at 85% 105%, rgba(99,  60, 255, 0.09) 0%, transparent 60%);
+}
+
+/* ── Nav tab active underline (::after can't be done with Tailwind alone) ── */
+.nav-tab { position: relative; }
+.nav-tab.nav-active                { color: var(--token-color-primary); }
+.nav-tab.nav-active:hover          { color: var(--token-color-primary); }
+.nav-tab.nav-active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 20px;
+  right: 20px;
+  height: 2px;
+  background: var(--token-color-primary);
+  border-radius: 2px 2px 0 0;
+}
+
+/* ── Minimalistic scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
 }

@@ -1,0 +1,40 @@
+:root {
+  /* Brand */
+  --token-color-primary: #FF3D71;
+  --token-color-primary-dark: #e8384e;
+  --token-color-primary-dim: rgba(255, 61, 113, 0.15);
+  --token-color-primary-glow: rgba(255, 61, 113, 0.3);
+
+  /* Backgrounds */
+  --token-color-bg-page: #08090F;
+  --token-color-bg-card: rgba(255, 255, 255, 0.04);
+  --token-color-bg-card-hover: rgba(255, 255, 255, 0.07);
+  --token-color-bg-input: rgba(255, 255, 255, 0.04);
+
+  /* Borders */
+  --token-color-border: rgba(255, 255, 255, 0.07);
+  --token-color-border-hover: rgba(255, 255, 255, 0.14);
+
+  /* Text */
+  --token-color-text: #EEEEF5;
+  --token-color-text-2: #8B8FA8;
+  --token-color-text-3: #484C63;
+
+  /* Icons */
+  --token-color-icon-stroke: #8B8FA8;
+  --token-color-icon-fill: #8B8FA8;
+
+  /* Messaging */
+  --token-color-message-read: #60A5FA;
+  --token-color-message-bubble-sent: rgba(255, 61, 113, 0.28);
+  --token-color-message-bubble-sent-border: rgba(255, 61, 113, 0.35);
+
+  /* Gradients */
+  --token-gradient-avatar-ring: linear-gradient(135deg, #FF3D71, #FF8A65, #A855F7);
+  --token-gradient-avatar-inner: linear-gradient(135deg, #1E1530, #162030);
+  --token-gradient-logo: linear-gradient(135deg, #FF3D71 30%, #FF8A65);
+
+  /* Typography — custom sizes outside Tailwind's default scale */
+  --token-font-size-2xs: 9px;
+  --token-font-size-3xs: 10px;
+}

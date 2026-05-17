@@ -1,97 +1,115 @@
-<div class="min-h-screen pt-14">
-  <div class="max-w-4xl mx-auto px-4 py-6">
-    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden flex" style="height: calc(100vh - 6rem)">
+<div class="h-screen pt-[58px] px-6 pb-6 overflow-hidden flex items-stretch justify-center mt-6">
+  <div class="w-full max-w-[1000px] h-full grid grid-cols-[280px_1fr] bg-bg-card border border-border rounded-3xl overflow-hidden">
 
-      <!-- Conversation list sidebar -->
-      <div class="w-72 border-r border-gray-200 flex flex-col flex-shrink-0">
-        <app-channel-list />
-      </div>
+    <!-- Sidebar -->
+    <div class="border-r border-border flex flex-col overflow-hidden">
+      <app-channel-list />
+    </div>
 
-      <!-- Chat area -->
-      <div class="flex-1 flex flex-col min-w-0">
+    <!-- Chat panel -->
+    <div class="flex flex-col overflow-hidden">
 
-        <!-- Chat header -->
-        <div class="px-5 py-3 border-b border-gray-200 flex items-center gap-3">
-          <div class="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0 overflow-hidden">
-            @if (activeChannel()?.avatarUrl) {
+      <!-- Chat header -->
+      <div class="px-5 py-4 border-b border-border flex items-center gap-3 flex-shrink-0">
+        @if (activeChannel()) {
+          <div [class]="'w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden av-grad-' + (activeChannel()!.userName.charCodeAt(0) % 8)">
+            @if (activeChannel()!.avatarUrl) {
               <img [src]="activeChannel()!.avatarUrl" [alt]="activeChannel()!.userName" class="w-full h-full object-cover" />
             } @else {
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#9CA3AF">
-                <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
-              </svg>
+              <span class="font-display font-bold text-[11px] text-white leading-none">
+                {{ activeChannel()!.userName.slice(0, 2).toUpperCase() }}
+              </span>
             }
           </div>
           <div>
-            <p class="font-semibold text-gray-900 text-sm">{{ activeChannel()?.userName }}</p>
+            <p class="font-display font-bold text-[14px] text-text">{{ activeChannel()!.userName }}</p>
+            <p class="text-[11px] text-primary">Active now</p>
           </div>
-        </div>
+          <div class="flex-1"></div>
+          <div class="w-2 h-2 rounded-full bg-primary shadow-[0_0_6px_var(--color-primary-glow)] flex-shrink-0"></div>
+        } @else {
+          <p class="text-sm text-text-2">Select a conversation to start chatting</p>
+        }
+      </div>
 
-        <!-- Messages -->
-        <div class="flex-1 overflow-y-auto px-5 py-4 space-y-3">
-          @if (isLoading()) {
-            <div class="flex items-center justify-center h-full">
-              <div class="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-            </div>
-          } @else if (error()) {
-            <div class="flex items-center justify-center h-full">
-              <p class="text-sm text-red-500">{{ error() }}</p>
-            </div>
-          } @else {
-            @for (msg of messages(); track msg.id) {
-              @let isMine = msg.authorId === authUser()?.id;
-              <div class="flex" [class.justify-end]="isMine">
-                <div class="max-w-xs px-4 py-2.5 rounded-2xl text-sm leading-relaxed"
-                     [class.bg-primary]="isMine"
-                     [class.text-white]="isMine"
-                     [class.rounded-br-sm]="isMine"
-                     [class.bg-gray-100]="!isMine"
-                     [class.text-gray-800]="!isMine"
-                     [class.rounded-bl-sm]="!isMine">
+      <!-- Messages -->
+      <div #messagesContainer class="flex-1 overflow-y-auto px-5 py-5 flex flex-col gap-2">
+        @if (isLoading()) {
+          <div class="flex items-center justify-center flex-1">
+            <div class="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        } @else if (error()) {
+          <div class="flex items-center justify-center flex-1">
+            <p class="text-sm text-primary">{{ error() }}</p>
+          </div>
+        } @else {
+          @for (msg of messages(); track msg.id) {
+            @let isMine = msg.authorId === authUser()?.id;
+            <div class="flex flex-col gap-1" [class.items-end]="isMine" [class.items-start]="!isMine">
+              <div class="flex items-end gap-2" [class.flex-row-reverse]="isMine">
+
+                @if (!isMine && activeChannel()) {
+                  <div [class]="'w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden av-grad-' + (activeChannel()!.userName.charCodeAt(0) % 8)">
+                    @if (activeChannel()!.avatarUrl) {
+                      <img [src]="activeChannel()!.avatarUrl" [alt]="activeChannel()!.userName" class="w-full h-full object-cover" />
+                    } @else {
+                      <span class="font-display font-bold text-2xs text-white leading-none">
+                        {{ activeChannel()!.userName.slice(0, 2).toUpperCase() }}
+                      </span>
+                    }
+                  </div>
+                }
+
+                <div class="max-w-xs px-3.5 py-2.5 text-[13px] leading-relaxed text-text"
+                     [class.msg-bubble-sent]="isMine"
+                     [class.msg-bubble-received]="!isMine">
                   {{ msg.content }}
-                  @if (isMine) {
-                    <span class="flex justify-end mt-1">
-                      @if (msg.status === 'sent') {
-                        <!-- single tick -->
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="opacity-70">
-                          <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                      } @else if (msg.status === 'delivered') {
-                        <!-- double tick grey -->
-                        <svg width="16" height="12" viewBox="0 0 32 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="opacity-70">
-                          <polyline points="20 6 9 17 4 12"/>
-                          <polyline points="28 6 17 17 12 12"/>
-                        </svg>
-                      } @else if (msg.status === 'read') {
-                        <!-- double tick blue -->
-                        <svg width="16" height="12" viewBox="0 0 32 24" fill="none" stroke="#60A5FA" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                          <polyline points="20 6 9 17 4 12"/>
-                          <polyline points="28 6 17 17 12 12"/>
-                        </svg>
-                      }
-                    </span>
+                </div>
+
+              </div>
+
+              @if (isMine) {
+                <div class="flex items-center gap-1">
+                  @if (msg.status === 'read') {
+                    <svg width="14" height="10" viewBox="0 0 14 10" fill="none" class="text-message-read">
+                      <path d="M1 5l3 3 5-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M5 5l3 3 5-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  } @else if (msg.status === 'delivered') {
+                    <svg width="14" height="10" viewBox="0 0 14 10" fill="none" class="text-text-2">
+                      <path d="M1 5l3 3 5-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M5 5l3 3 5-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  } @else if (msg.status === 'sent') {
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" class="text-text-2">
+                      <path d="M1 5l3 3 5-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                   }
                 </div>
-              </div>
-            }
+              }
+            </div>
           }
-        </div>
-
-        <!-- Message input -->
-        <div class="px-5 py-4 border-t border-gray-200 flex items-center gap-3">
-          <input #inputEl type="text" placeholder="Write a message…"
-                 class="flex-1 bg-gray-100 rounded-full px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/20 transition"
-                 (keydown.enter)="onSend(inputEl)" />
-          <button class="w-9 h-9 bg-primary text-white rounded-full flex items-center justify-center hover:bg-primary-dark transition-colors flex-shrink-0"
-                  (click)="onSend(inputEl)">
-            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="22" y1="2" x2="11" y2="13"/>
-              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-            </svg>
-          </button>
-        </div>
-
+        }
       </div>
+
+      <!-- Message input -->
+      <div class="px-5 py-4 border-t border-border flex items-center gap-[10px] flex-shrink-0">
+        <div class="flex-1 flex items-center bg-bg-card-hover border border-border rounded-full px-4 py-2.5 transition-colors focus-within:border-border-hover">
+          <input #inputEl type="text" placeholder="Write a message..."
+                 class="flex-1 bg-transparent border-none outline-none text-[13px] text-text placeholder:text-text-3"
+                 (keydown.enter)="onSend(inputEl)" />
+        </div>
+        <button class="w-[38px] h-[38px] rounded-full bg-primary flex items-center justify-center flex-shrink-0 text-white
+                       hover:bg-[#ff5a85] hover:shadow-[0_0_18px_rgba(255,61,113,0.3)] hover:scale-105
+                       active:scale-95 transition-all duration-[180ms]"
+                (click)="onSend(inputEl)">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
+
     </div>
   </div>
 </div>

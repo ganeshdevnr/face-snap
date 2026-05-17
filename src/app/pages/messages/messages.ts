@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, effect, ElementRef, viewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ChannelListComponent } from '../../features/channel-list/channel-list';
 import { Message } from '../../shared/models/message.model';
@@ -20,12 +20,27 @@ import {
 export class MessagesPage {
   private readonly store = inject(Store);
 
+  readonly messagesContainer = viewChild<ElementRef<HTMLDivElement>>('messagesContainer');
+
   readonly messages = this.store.selectSignal(selectSelectedConversationMessages);
   readonly isLoading = this.store.selectSignal(selectMessagesLoading);
   readonly error = this.store.selectSignal(selectMessagesError);
   readonly authUser = this.store.selectSignal(selectAuthUser);
   readonly selectedConversationId = this.store.selectSignal(selectSelectedConversationId);
   readonly activeChannel = this.store.selectSignal(selectActiveChannel);
+
+  constructor() {
+    effect(() => {
+      this.messages();
+      this.isLoading();
+      const el = this.messagesContainer();
+      if (el && !this.isLoading()) {
+        requestAnimationFrame(() => {
+          el.nativeElement.scrollTop = el.nativeElement.scrollHeight;
+        });
+      }
+    });
+  }
 
   onSend(inputEl: HTMLInputElement): void {
     const content = inputEl.value.trim();
